@@ -1,0 +1,94 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 110,
+   "metadata": {
+    "collapsed": false,
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "        Date    Open    High     Low   Close  Volume  Adj Close\n",
+      "0 1990-01-08  411.25  412.00  410.00  410.00   10000     410.00\n",
+      "1 1990-01-09  408.25  408.50  406.25  406.75   10000     406.75\n",
+      "2 1990-01-10  406.00  406.25  403.25  405.50   10000     405.50\n",
+      "3 1990-01-11  406.75  407.00  403.25  404.50   10000     404.50\n",
+      "4 1990-01-12  406.75  406.75  400.75  402.00   10000     402.00\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "from datetime import datetime   \n",
+    "\n",
+    "df_daily=pd.read_csv('/home/nightrose/Documents/Github/try/xyz/data.daily.csv', sep='\\t') \n",
+    "df_daily.time=pd.to_datetime(df_daily.time,unit='D',format='%Y-%m-%d')\n",
+    "df_daily=pd.DataFrame(df_daily)\n",
+    "#df_daily['time']=[x.strftime('%m/%d/%Y') for x in df_daily['time']]\n",
+    "df_daily['volume']=10000\n",
+    "df_daily['Adj Close']=df_daily['close']\n",
+    "df_daily = df_daily[['time', 'open', 'high','low','close','volume','Adj Close']]\n",
+    "df_daily.rename(columns={'time': 'Date','open':'Open','high':'High','low':'Low','close':'Close',\n",
+    "                        'volume':'Volume'}, inplace=True)\n",
+    "\n",
+    "#df_daily=df_daily.set_index('dt')\n",
+    "print(df_daily.head())\n",
+    "df_daily.to_csv('/home/nightrose/Documents/Github/try/xyz/data_daily.csv', sep=',',index=False)\n",
+    "df_daily=df_daily.set_index('Date')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 131,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "                  Open        High         Low       Close  Volume   Adj Close\n",
+      "Date                                                                          \n",
+      "2008-01-02  142.117985  146.233293  142.117985  146.233293   10000  146.233293\n",
+      "2008-01-03  147.471881  151.027827  147.032382  151.027827   10000  151.027827\n",
+      "2008-01-04  151.347463  152.865732  146.512974  149.269831   10000  149.269831\n",
+      "2008-01-07  148.111152  149.269831  144.275525  144.395388   10000  144.395388\n",
+      "2008-01-08  144.715024  148.390833  143.116846  144.794933   10000  144.794933\n"
+     ]
+    }
+   ],
+   "source": [
+    "#df_daily\n",
+    "df_09=df_daily['2008-01-01':'2012-12-31']\n",
+    "print(df_09.head())\n",
+    "df_09.to_csv('/home/nightrose/Documents/Github/try/xyz/data_08_12.csv', sep=',',index=True)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 2",
+   "language": "python",
+   "name": "python2"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 2
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython2",
+   "version": "2.7.11"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 0
+}
